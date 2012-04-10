@@ -1,5 +1,7 @@
 (ns destined.core-test
-  (:use [destined.core :only [destined selected options]]))
+  (:use [destined.core :only [destine! selected options]]
+        [jayq.core :only [$]])
+  (:require [goog.dom :as gdom]))
 
 (defn p [x]
   (do (.log js/console x)
@@ -8,18 +10,41 @@
   (do (.log js/console (pr-str x))
       x))
 
+(def main (.querySelector js/document "#main"))
+(def $select (let [el (gdom/htmlToDocumentFragment "<select style='width: 100px'></select>")]
+               (gdom/appendChild main el)
+               ($ el)))
 
-(p "hello there")
-#_(let [c (destined "#test")]
-  (set! (.-o js/window)
-        #(pp (selected c)))
+(let [d (destine! $select)]
+  (let [raw-opts ["a" "b" "c"]]
+    (options d raw-opts)
+    
+    (assert (= 3 (-> $select (.children) (.-length)))
+            "set raw opts")
+    (assert (= raw-opts (map :value (options d)))
+            "get raw opts"))
 
-  (set! (.-reselect js/window)
-        #(selected c "D"))
 
-  (set! (.-m js/window)
-        #(pp (options c  [{:text "1" :value 1}
-                          {:text "2" :value 2 :group "Awesome"}
-                          {:text "3" :value 3  :group "Awesome"}])))
+  (let [opts [{:text "A" :value "1"}
+              {:text "B" :value "2"}]]
+    (options d opts)
+        (assert (= 2 (-> $select (.children) (.-length)))
+                "set opts")
+        (assert (= (map :value opts)
+                   (map :value (options d)))
+                "get opts"))
 
-  (add-watch c :test #(pp %)))
+
+  )
+
+
+
+
+
+
+
+
+#_(def $multi-select (let [el (gdom/htmlToDocumentFragment "<select multiple='multiple'></select>")]
+                     (gdom/appendChild main el)
+                     ($ el)))
+
