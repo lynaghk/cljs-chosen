@@ -1,0 +1,6 @@
+[submodule "vendor/coffee-script"]
+	path = vendor/coffee-script
+	url = git://github.com/lynaghk/coffee-script
+[submodule "vendor/chosen"]
+	path = vendor/chosen
+	url = https://github.com/harvesthq/chosen.git
