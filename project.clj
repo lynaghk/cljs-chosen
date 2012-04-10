@@ -5,4 +5,13 @@
 
                  [jayq "0.1.0-alpha3"]]
   :source-paths ["src/cljs"]
-  :resource-pathz ["resources"])
+  :resource-paths ["resources"]
+
+
+  :plugins [[lein-cljsbuild "0.1.6"]]
+  :cljsbuild {:builds
+              [{:source-path "test"
+                :compiler {:pretty-print true
+                           :output-to "public/test.js"
+                           :optimizations :simple}
+                :jar false}]})
