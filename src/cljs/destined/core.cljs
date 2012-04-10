@@ -44,12 +44,15 @@
                       ">" text "</option>"]))
          [(s :when string?)] (str "<option>" s "</option>")))
 
+(defn- optionify
+  "Turns a val into a map you can pass to opts-html."
+  [x] (if (map? x) x {:value x :text (str x)}))
 
 (defn- reset-dom-options! [$el options]
   ;;Remove old options
   (-> $el (.children) (.remove))
   ;;Insert new options
-  (doseq [[group opts] (group-by :group options)]
+  (doseq [[group opts] (group-by :group (map optionify options))]
     (let [opts-html (join "\n" (map opt->html opts))]
       (if (nil? group)
         ;;just append options
@@ -58,7 +61,7 @@
         (-> $el (.append (str "<optgroup label='" group "'>" opts-html "</optgroup>")))))))
 
 
-(defn destined
+(defn destine!
   "Turn <select> element (or selector string) el into a Destined selector."
   [el & {:keys [search-contains]
          :or {search-contains false}}]
@@ -67,7 +70,7 @@
         !a (atom {:options (el-options $el)
                   :selected (selected-values $el)})]
 
-    (-> $el (.destined (doto (js-obj) ;;todo, moar Chosen options.
+    (-> $el (.chosen (doto (js-obj) ;;todo, moar Chosen options.
                          (aset "search_contains" search-contains)))
 
         ;;When user manipulates the destined, update atom.
