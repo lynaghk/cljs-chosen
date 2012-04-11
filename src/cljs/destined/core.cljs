@@ -10,10 +10,10 @@
 (defprotocol IOptions
   (options
     [this]
-    [this options]))
+    [this opts]))
 
 (defn- ->coll [c]
-  (if-not (coll? c) [c] c))
+  (if-not (sequential? c) [c] c))
 
 (defn- option-values [option-els]
   (map #(.-value %) option-els))
@@ -37,11 +37,12 @@
   (match [o]
          [(m :when map?)]
          (let [{:keys [value text selected disabled group]} m]
-           (join " " ["<option"
-                      (if value (str "value='" value "'"))
-                      (if disabled "disabled='disabled'")
-                      (if selected "selected='selected'")
-                      ">" text "</option>"]))
+           (str (join " " ["<option"
+                           (if value (str "value='" value "'"))
+                           (if disabled "disabled='disabled'")
+                           (if selected "selected='selected'")
+                           ">"])
+                text "</option>"))
          [(s :when string?)] (str "<option>" s "</option>")))
 
 (defn- optionify
@@ -52,7 +53,7 @@
   ;;Remove old options
   (-> $el (.children) (.remove))
   ;;Insert new options
-  (doseq [[group opts] (group-by :group (map optionify options))]
+  (doseq [[group opts] (group-by :group (map optionify (->coll options)))]
     (let [opts-html (join "\n" (map opt->html opts))]
       (if (nil? group)
         ;;just append options
@@ -82,6 +83,8 @@
 
                  ;;Update selection on DOM.
                  ;;Only select the first matching item, in case there are multiple options with the same value.
+                 (-> $el (.find "option[selected='selected']")
+                     (.removeAttr "selected"))
                  (doseq [val selected]
                    (-> $el (.find (str "option[value='" val "']"))
                        (.first)
@@ -108,8 +111,8 @@
       IOptions
       (options [_]
         (:options @!a))
-      (options [_ options]
-        (reset-dom-options! $el options)
+      (options [_ opts]
+        (reset-dom-options! $el opts)
         (swap! !a assoc :options (el-options $el)))
 
       ;;Proxy to internal atom.
