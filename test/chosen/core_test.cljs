@@ -87,3 +87,6 @@
     (assert ((selected d) (:value (first opts)))
             "selected option removed from selection if it's removed from the DOM")))
 
+
+
+(p "Hurray! All tests passed.")
