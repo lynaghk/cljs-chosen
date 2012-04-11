@@ -1,5 +1,5 @@
-(ns destined.core-test
-  (:use [destined.core :only [destine! selected options]]
+(ns chosen.core-test
+  (:use [chosen.core :only [ichooseu! selected options]]
         [jayq.core :only [$]])
   (:require [goog.dom :as gdom]))
 
@@ -15,7 +15,7 @@
                (gdom/appendChild main el)
                ($ el)))
 
-(let [d (destine! $select)]
+(let [d (ichooseu! $select)]
   (let [raw-opts ["a" "b" "c"]]
     (options d raw-opts)
 
@@ -48,7 +48,7 @@
                      (gdom/appendChild main el)
                      ($ el)))
 
-(let [d (destine! $multi-select)]
+(let [d (ichooseu! $multi-select)]
   (let [raw-opts ["a" "b" "c"]]
     (options d raw-opts)
 

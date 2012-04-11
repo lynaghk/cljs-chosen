@@ -1,4 +1,4 @@
-(ns destined.core
+(ns chosen.core
   (:use-macros [clojure.core.match.js :only [match]])
   (:use [jayq.core :only [$]]
         [clojure.string :only [join]]))
@@ -62,8 +62,8 @@
         (-> $el (.append (str "<optgroup label='" group "'>" opts-html "</optgroup>")))))))
 
 
-(defn destine!
-  "Turn <select> element (or selector string) el into a Destined selector."
+(defn ichooseu!
+  "Turn <select> element (or selector string) el into a Chosen selector."
   [el & {:keys [search-contains]
          :or {search-contains false}}]
   (let [$el ($ el)
@@ -74,10 +74,10 @@
     (-> $el (.chosen (doto (js-obj) ;;todo, moar Chosen options.
                        (aset "search_contains" search-contains)))
 
-        ;;When user manipulates the destined, update atom.
+        ;;When user manipulates the chosen, update atom.
         (.on "change" #(swap! !a assoc :selected (selected-values $el))))
 
-    ;;When code updates atom, update the destined.
+    ;;When code updates atom, update the chosen.
     (add-watch !a :_update-dom
                (fn [_ _ _ {:keys [selected]}]
 
