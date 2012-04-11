@@ -71,7 +71,7 @@
                   :selected (selected-values $el)})]
 
     (-> $el (.chosen (doto (js-obj) ;;todo, moar Chosen options.
-                         (aset "search_contains" search-contains)))
+                       (aset "search_contains" search-contains)))
 
         ;;When user manipulates the destined, update atom.
         (.on "change" #(swap! !a assoc :selected (selected-values $el))))
@@ -83,7 +83,8 @@
                  ;;Update selection on DOM.
                  ;;Only select the first matching item, in case there are multiple options with the same value.
                  (doseq [val selected]
-                   (-> $el (.first (str "option[value='" val "']"))
+                   (-> $el (.find (str "option[value='" val "']"))
+                       (.first)
                        (.attr "selected" "selected")))
 
                  ;;If the options marked as selected on the DOM are different than what the atom has stored, update the atom.
