@@ -13,7 +13,8 @@
     [this opts]))
 
 (defn- ->coll [c]
-  (if-not (sequential? c) [c] c))
+  (if-not (or (set? c) (sequential? c))
+    [c] c))
 
 (defn- option-values [option-els]
   (map #(.-value %) option-els))

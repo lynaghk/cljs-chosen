@@ -63,6 +63,16 @@
     (options d opts)
     (assert (= 2 (-> $multi-select (.children) (.-length)))
             "set opts")
+    
+    (options d [])
+    (assert (= 0 (-> $multi-select (.children) (.-length)))
+            "clear opts")
+    
+    (options d (set opts))
+    (assert (= 2 (-> $multi-select (.children) (.-length)))
+            "set opts with set")
+
+    (options d opts)
     (assert (= (map :value opts)
                (map :value (options d)))
             "get opts")
