@@ -122,8 +122,8 @@
       (-notify-watches [_ _ _])
       (-add-watch [_ key f]
         ;;Only call watchers when selection changes
-        (add-watch !a key (fn [_ _ {old-selected :selected} {selected :selected}]
-                            (when (not= old-selected selected)
-                              (f selected)))))
+        (add-watch !a key (fn [_ _ {old-sel :selected} {sel :selected}]
+                            (when (not= old-sel sel)
+                              (f (if multiple? sel (first sel)))))))
       (-remove-watch [_ key]
         (remove-watch !a key)))))
