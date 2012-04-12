@@ -1,4 +1,4 @@
-(defproject com.keminglabs/chosen "0.0.1-SNAPSHOT"
+(defproject com.keminglabs/chosen "0.1.0"
   :description "ClojureScript wrapper for Chosen <select> library"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [org.clojure/core.match "0.2.0-alpha9"]
