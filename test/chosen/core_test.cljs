@@ -100,3 +100,4 @@
 
 
 (p "Hurray! All tests passed.")
+(p "__exit__")

@@ -10,8 +10,10 @@
 
   :plugins [[lein-cljsbuild "0.1.6"]]
   :cljsbuild {:builds
-              [{:source-path "test"
-                :compiler {:pretty-print true
-                           :output-to "public/test.js"
-                           :optimizations :simple}
-                :jar false}]})
+              {:test {:source-path "test"
+                      :compiler {:output-to "public/test.js"
+                                 :optimizations :whitespace
+                                 :pretty-print true}
+                      :jar false}}
+              :test-commands {"integration" ["phantomjs"
+                                             "test/runner.coffee"]}})

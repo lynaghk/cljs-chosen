@@ -49,6 +49,19 @@ Options will be grouped by `group` and the appropriate `<optgroup>` tags created
 Chosen objects implement `IWatchable`, so you can add watches to them just like you can with atoms.
 Watchers are called with a single argument, the new selection.
 
+Testing
+-------
+For ClojureScript-specific integration testing, you can run our highly advanced, PhantomJS-powered "list-of-assertions" testing framework:
+
+    lein cljsbuild test
+
+or, if you're too cool to go headless:
+
+    lein cljsbuild once
+
+then open up `public/index.html` in your browser.
+
+
 
 TODO
 ----
