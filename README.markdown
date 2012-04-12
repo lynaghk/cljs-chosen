@@ -19,6 +19,22 @@ This is a ClojureScript interface.
 (add-watch c (fn [new-selection]
                (.log js/console new-selection)))
 ```
+To use, just add
+
+```clojure
+[com.keminglabs/chosen "0.1.0"]
+```
+
+to your `project.clj` and
+
+```clojure
+(ns my-cljs-ns
+  (:use [chosen.core :only [ichooseu! selected options]]))
+```
+
+to the namespace you want to use it in.
+Your page will still need to have jQuery available, as well as the Chosen JavaScript plugin and CSS (`chosen.jquery.js` and `chosen.css`, sold separately).
+
 
 
 API
