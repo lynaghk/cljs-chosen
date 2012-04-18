@@ -37,7 +37,9 @@
     (selected d (:value (second opts)))
     (assert (= (:value (second opts))
                (selected d))
-            "select option by value")))
+            "select option by value")
+    (assert (= (selected d) @d)
+            "deref is the same as selected")))
 
 
 
@@ -95,7 +97,9 @@
     (selected d (map :value opts)) ;;select both options
     (options d (first opts)) ;;then remove one
     (assert ((selected d) (:value (first opts)))
-            "selected option removed from selection if it's removed from the DOM")))
+            "selected option removed from selection if it's removed from the DOM")
+    (assert (= (selected d) @d)
+            "deref is the same as selected")))
 
 
 

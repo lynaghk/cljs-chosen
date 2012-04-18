@@ -115,7 +115,10 @@
       (options [_ opts]
         (reset-dom-options! $el opts)
         (swap! !a assoc :options (el-options $el)))
-
+      
+      IDeref
+      (-deref [this] (selected this))
+      
       ;;Proxy to internal atom.
       ;;Is implementing IWatchable a good idea?
       IWatchable
