@@ -37,7 +37,7 @@
 (defn- opt->html [o]
   (let [{:keys [value text selected disabled group]} o]
     (str (join " " ["<option"
-                    (if value (str "value=\"" value "\""))
+                    (str "value=\"" (or value text) "\"")
                     (if disabled "disabled='disabled'")
                     (if selected "selected='selected'")
                     ">"])
