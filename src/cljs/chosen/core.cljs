@@ -59,6 +59,35 @@
         ;;otherwise, options within an <optgroup>.
         (-> $el (.append (str "<optgroup label='" group "'>" opts-html "</optgroup>")))))))
 
+(deftype Chosen [$el !a multiple?]
+  ISelectable
+  (selected [_]
+    (let [sel (:selected @!a)]
+      (if multiple? sel (first sel))))
+  (selected [_ values]
+    (swap! !a assoc :selected (->coll values)))
+
+  IOptions
+  (options [_]
+    (:options @!a))
+  (options [_ opts]
+    (reset-dom-options! $el opts)
+    (swap! !a assoc :options (el-options $el)))
+
+  IDeref
+  (-deref [this] (selected this))
+
+  ;;Proxy to internal atom.
+  ;;Is implementing IWatchable a good idea?
+  IWatchable
+  (-notify-watches [_ _ _])
+  (-add-watch [_ key f]
+    ;;Only call watchers when selection changes
+    (add-watch !a key (fn [_ _ {old-sel :selected} {sel :selected}]
+                        (when (not= old-sel sel)
+                          (f (if multiple? sel (first sel)))))))
+  (-remove-watch [_ key]
+    (remove-watch !a key)))
 
 (defn ichooseu!
   "Turn <select> element (or selector string) el into a Chosen selector."
@@ -97,33 +126,4 @@
                  ;;Trigger Chosen-internals update so it'll match the DOM
                  (.trigger $el "liszt:updated")))
 
-
-    (reify
-      ISelectable
-      (selected [_]
-        (let [sel (:selected @!a)]
-          (if multiple? sel (first sel))))
-      (selected [_ values]
-        (swap! !a assoc :selected (->coll values)))
-
-      IOptions
-      (options [_]
-        (:options @!a))
-      (options [_ opts]
-        (reset-dom-options! $el opts)
-        (swap! !a assoc :options (el-options $el)))
-      
-      IDeref
-      (-deref [this] (selected this))
-      
-      ;;Proxy to internal atom.
-      ;;Is implementing IWatchable a good idea?
-      IWatchable
-      (-notify-watches [_ _ _])
-      (-add-watch [_ key f]
-        ;;Only call watchers when selection changes
-        (add-watch !a key (fn [_ _ {old-sel :selected} {sel :selected}]
-                            (when (not= old-sel sel)
-                              (f (if multiple? sel (first sel)))))))
-      (-remove-watch [_ key]
-        (remove-watch !a key)))))
+    (Chosen. $el !a multiple?)))

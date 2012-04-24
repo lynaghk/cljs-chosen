@@ -8,7 +8,7 @@
   :resource-paths ["resources"]
 
 
-  :plugins [[lein-cljsbuild "0.1.6"]]
+  :plugins [[lein-cljsbuild "0.1.8"]]
   :cljsbuild {:builds
               {:test {:source-path "test"
                       :compiler {:output-to "public/test.js"
