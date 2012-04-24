@@ -35,16 +35,13 @@
 
 ;;Hiccup would be nice, but I don't want to add it as a dependency.
 (defn- opt->html [o]
-  (match [o]
-         [(m :when map?)]
-         (let [{:keys [value text selected disabled group]} m]
-           (str (join " " ["<option"
-                           (if value (str "value='" value "'"))
-                           (if disabled "disabled='disabled'")
-                           (if selected "selected='selected'")
-                           ">"])
-                text "</option>"))
-         [(s :when string?)] (str "<option>" s "</option>")))
+  (let [{:keys [value text selected disabled group]} o]
+    (str (join " " ["<option"
+                    (if value (str "value=\"" value "\""))
+                    (if disabled "disabled='disabled'")
+                    (if selected "selected='selected'")
+                    ">"])
+         text "</option>")))
 
 (defn- optionify
   "Turns a val into a map you can pass to opts-html."

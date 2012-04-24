@@ -57,7 +57,15 @@
     (assert (= 3 (-> $multi-select (.children) (.-length)))
             "set raw opts")
     (assert (= raw-opts (map :value (options d)))
-            "get raw opts"))
+            "get raw opts")
+    
+    (selected d "a")
+    (assert (= #{"a"} (selected d))
+            "single opt can be selected")
+
+    (selected d #{"a" "b"})
+    (assert (= #{"a" "b"} (selected d))
+            "multiple opts can be selected"))
 
 
   (let [opts [{:text "A" :value "1"}
