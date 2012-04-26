@@ -36,11 +36,12 @@
 
 ;;Hiccup would be nice, but I don't want to add it as a dependency.
 (defn- opt->html [o]
-  (let [{:keys [value text selected disabled group]} o]
+  (let [{:keys [value text selected disabled group style]} o]
     (str (join " " ["<option"
                     (str "value=\"" (gstring/htmlEscape (or value text)) "\"")
-                    (if disabled "disabled='disabled'")
-                    (if selected "selected='selected'")
+                    (when style (str "style='" (gstring/htmlEscape style) "'"))
+                    (when disabled "disabled='disabled'")
+                    (when selected "selected='selected'")
                     ">"])
          text "</option>")))
 
@@ -58,7 +59,7 @@
         ;;just append options
         (-> $el (.append opts-html))
         ;;otherwise, options within an <optgroup>.
-        (-> $el (.append (str "<optgroup label='" group "'>" opts-html "</optgroup>")))))))
+        (-> $el (.append (str "<optgroup label='" (gstring/htmlEscape (name group)) "'>" opts-html "</optgroup>")))))))
 
 (deftype Chosen [$el !a multiple?]
   ISelectable

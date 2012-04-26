@@ -82,3 +82,4 @@ then open up `public/index.html` in your browser.
 TODO
 ----
 Advanced compilation support (possibly requiring that jQuery calls are replaced with Closure DOM lib calls)
+Allow Clojure data structures (including closures) to be values.
