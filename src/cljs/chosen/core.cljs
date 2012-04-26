@@ -1,7 +1,8 @@
 (ns chosen.core
   (:use-macros [clojure.core.match.js :only [match]])
   (:use [jayq.core :only [$]]
-        [clojure.string :only [join]]))
+        [clojure.string :only [join]])
+  (:require [goog.string :as gstring]))
 
 (defprotocol ISelectable
   (selected
@@ -37,7 +38,7 @@
 (defn- opt->html [o]
   (let [{:keys [value text selected disabled group]} o]
     (str (join " " ["<option"
-                    (str "value=\"" (or value text) "\"")
+                    (str "value=\"" (gstring/htmlEscape (or value text)) "\"")
                     (if disabled "disabled='disabled'")
                     (if selected "selected='selected'")
                     ">"])
