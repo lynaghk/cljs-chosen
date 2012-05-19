@@ -34,7 +34,17 @@ to your `project.clj` and
 
 to the namespace you want to use it in.
 Your page will still need to have jQuery available, as well as the Chosen JavaScript plugin and CSS (`chosen.jquery.js` and `chosen.css`, sold separately).
+Add to your compilation options:
 
+```clojure
+  {
+    :optimizations :advanced
+    :externs ["chosen-externs.js" "externs/jquery.js"]
+    ...
+  }
+```
+
+to use Closure's advanced mode compilation.
 
 
 API
@@ -81,5 +91,4 @@ then open up `public/index.html` in your browser.
 
 TODO
 ----
-Advanced compilation support (possibly requiring that jQuery calls are replaced with Closure DOM lib calls)
 Allow Clojure data structures (including closures) to be values.
