@@ -34,12 +34,12 @@ to your `project.clj` and
 
 to the namespace you want to use it in.
 Your page will still need to have jQuery available, as well as the Chosen JavaScript plugin and CSS (`chosen.jquery.js` and `chosen.css`, sold separately).
-Add to your compilation options:
+If you're not using lein cljsbuild >= 0.2.1, add to your compilation options:
 
 ```clojure
   {
     :optimizations :advanced
-    :externs ["chosen-externs.js" "externs/jquery.js"]
+    :externs ["closure-js" "externs/jquery.js"]
     ...
   }
 ```
