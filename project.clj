@@ -1,4 +1,4 @@
-(defproject com.keminglabs/chosen "0.1.6-SNAPSHOT"
+(defproject com.keminglabs/chosen "0.1.6"
   :description "ClojureScript wrapper for Chosen <select> library"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [org.clojure/core.match "0.2.0-alpha9"]
@@ -8,7 +8,7 @@
   :resource-paths ["resources"]
 
 
-  :plugins [[lein-cljsbuild "0.1.10"]]
+  :plugins [[lein-cljsbuild "0.2.1"]]
   :cljsbuild {:builds
               {:test {:source-path "test"
                       :compiler {:output-to "public/test.js"
