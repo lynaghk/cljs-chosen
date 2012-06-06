@@ -8,7 +8,7 @@ This is a ClojureScript interface.
   (:use [chosen :only [ichooseu! selected options]]))
 
 ;;convert an existing <select> into a chosen
-(def c (ichooseu! (.querySelect js/document "#my-select")))
+(def c (ichooseu! "#my-select"))
 
 (options c ["A" "B" {:value "17" :text "C"}])
 
@@ -16,13 +16,13 @@ This is a ClojureScript interface.
 
 (selected c) ;;=> "B"
 
-(add-watch c (fn [new-selection]
-               (.log js/console new-selection)))
+(add-watch c :change (fn [new-selection]
+                       (.log js/console new-selection)))
 ```
 To use, just add
 
 ```clojure
-[com.keminglabs/chosen "0.1.5"]
+[com.keminglabs/chosen "0.1.6"]
 ```
 
 to your `project.clj` and
@@ -39,7 +39,7 @@ If you're not using lein cljsbuild >= 0.2.1, add to your compilation options:
 ```clojure
   {
     :optimizations :advanced
-    :externs ["closure-js" "externs/jquery.js"]
+    :externs ["externs/jquery.js"]
     ...
   }
 ```
