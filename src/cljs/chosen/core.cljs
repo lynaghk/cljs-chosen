@@ -1,5 +1,4 @@
 (ns chosen.core
-  (:use-macros [clojure.core.match.js :only [match]])
   (:use [jayq.core :only [$]]
         [clojure.string :only [join]])
   (:require [goog.string :as gstring]))
