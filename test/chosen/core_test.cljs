@@ -1,6 +1,5 @@
 (ns chosen.core-test
-  (:use [chosen.core :only [ichooseu! selected options]]
-        [jayq.core :only [$]])
+  (:use [chosen.core :only [ichooseu! selected options]])
   (:require [goog.dom :as gdom]))
 
 (defn p [x]
@@ -13,7 +12,7 @@
 (def main (.querySelector js/document "#main"))
 (def $select (let [el (gdom/htmlToDocumentFragment "<select style='width: 100px'></select>")]
                (gdom/appendChild main el)
-               ($ el)))
+               (js/$ el)))
 
 (let [d (ichooseu! $select)]
   (let [raw-opts ["a" "b" "c"]]
@@ -48,7 +47,7 @@
 
 (def $multi-select (let [el (gdom/htmlToDocumentFragment "<select style='width: 100px' multiple='multiple'></select>")]
                      (gdom/appendChild main el)
-                     ($ el)))
+                     (js/$ el)))
 
 (let [d (ichooseu! $multi-select)]
   (let [raw-opts ["a" "b" "c"]]

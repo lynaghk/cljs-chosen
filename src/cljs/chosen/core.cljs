@@ -1,7 +1,7 @@
 (ns chosen.core
-  (:use [jayq.core :only [$]]
-        [clojure.string :only [join]])
-  (:require [goog.string :as gstring]))
+  (:use [clojure.string :only [join]])
+  (:require [goog.string :as gstring]
+            [chosen.jquery :as jquery]))
 
 (defprotocol ISelectable
   (selected
@@ -20,18 +20,18 @@
   (map #(.-value %) option-els))
 
 (defn- selected-values [el]
-  (set (option-values (.find ($ el) "option:selected"))))
+  (set (option-values (.find (js/$ el) "option:selected"))))
 
 (defn- el-options [el]
   (map (fn [e]
-         (let [$e ($ e)
+         (let [$e (js/$ e)
                group (-> $e (.parent "optgroup") (.attr "label"))]
            {:text (.text $e)
             :value (.val $e)
             :selected (.-selected e)
             :disabled (.-disabled e)
             :group (if (undefined? group) nil group)}))
-       (.find ($ el) "option")))
+       (.find (js/$ el) "option")))
 
 ;;Hiccup would be nice, but I don't want to add it as a dependency.
 (defn- opt->html [o]
@@ -94,7 +94,7 @@
   "Turn <select> element (or selector string) el into a Chosen selector."
   [el & {:keys [search-contains]
          :or {search-contains false}}]
-  (let [$el ($ el)
+  (let [$el (js/$ el)
         multiple? (= "multiple" (.attr $el "multiple"))
         !a (atom {:options (el-options $el)
                   :selected (selected-values $el)})]
