@@ -48,11 +48,19 @@
   "Turns a val into a map you can pass to opts-html."
   [x] (if (map? x) x {:value x :text (str x)}))
 
+(defn- order-group-by
+  "Like clojure's group-by but maintains initial input order and returns as list of key/values."
+  [f coll]
+  (let [orig-order (->> (distinct (map f coll))
+                        (map-indexed #(vector %2 %1))
+                        (into {}))]
+    (sort-by (comp orig-order first) (group-by f coll))))
+
 (defn- reset-dom-options! [$el options]
   ;;Remove old options
   (-> $el (.children) (.remove))
   ;;Insert new options
-  (doseq [[group opts] (group-by :group (map optionify (->coll options)))]
+  (doseq [[group opts] (order-group-by :group (map optionify (->coll options)))]
     (let [opts-html (join "\n" (map opt->html opts))]
       (if (nil? group)
         ;;just append options
