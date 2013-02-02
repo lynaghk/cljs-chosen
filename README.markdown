@@ -22,7 +22,7 @@ This is a ClojureScript interface.
 To use, just add
 
 ```clojure
-[com.keminglabs/chosen "0.1.6"]
+[com.keminglabs/chosen "0.1.7"]
 ```
 
 to your `project.clj` and
